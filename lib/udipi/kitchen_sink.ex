@@ -17,12 +17,14 @@ defmodule Udipi.KitchenSink do
   defp recv_loop(listener) do
     case :gen_udp.recv(listener, 0, 1) do
       {:ok, {ip, port, data}} ->
-        Logger.info log_code: "udp.recv", ip: ip, port: port, data: data
+        Logger.info(log_code: "udp.recv", ip: ip, port: port, data: data)
         resp = handle_data(ip, port, data)
-        :gen_udp.send(listener, ip, port, [resp , ?\n] )
+        :gen_udp.send(listener, ip, port, [resp, ?\n])
         recv_loop(listener)
+
       {:error, :timeout} ->
         recv_loop(listener)
+
       {:error, :closed} ->
         {:ok, :closed}
     end
@@ -47,14 +49,13 @@ defmodule Udipi.KitchenSink do
   end
 
   defp handle_data(_ip, _port, "date" <> _) do
-    DateTime.utc_now |> DateTime.to_iso8601
+    DateTime.utc_now() |> DateTime.to_iso8601()
   end
 
   defp handle_data(ip, port, command) do
-    Logger.error error_code: "udp.recv", ip: ip, port: port, data: command
+    Logger.error(error_code: "udp.recv", ip: ip, port: port, data: command)
     "command not found"
   end
-
 
   def child_spec(opts) do
     %{
