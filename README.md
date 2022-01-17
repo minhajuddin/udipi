@@ -1,5 +1,9 @@
 # Udipi
 
+A UDP kitchen sink server.
+
+---
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

@@ -10,6 +10,7 @@ defmodule Udipi.Application do
     children = [
       # Start the Ecto repository
       Udipi.Repo,
+      {Udipi.KitchenSink, [port: 4242]},
       # Start the Telemetry supervisor
       UdipiWeb.Telemetry,
       # Start the PubSub system
